@@ -36,7 +36,7 @@ jobs:
           echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > $HOME/.kube/ca.crt
           echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > $HOME/.kube/client.crt
           echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > $HOME/.kube/client.key
-          echo "
+          cat <<EOF > $HOME/.kube/config
 apiVersion: v1
 clusters:
 - cluster:
@@ -57,7 +57,7 @@ users:
   user:
     client-certificate: $HOME/.kube/client.crt
     client-key: $HOME/.kube/client.key
-" > $HOME/.kube/config
+EOF
 
       - name: Deploy to Kubernetes
         run: |
