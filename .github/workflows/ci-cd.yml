@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Change this to your default branch if it's differentt
+      - main  # Change this to your default branch if it's different
 
 jobs:
   build:
@@ -36,28 +36,26 @@ jobs:
           echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > $HOME/.kube/ca.crt
           echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > $HOME/.kube/client.crt
           echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > $HOME/.kube/client.key
-          cat <<EOF > $HOME/.kube/config
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority: $HOME/.kube/ca.crt
-    server: https://127.0.0.1:51801
-  name: minikube
-contexts:
-- context:
-    cluster: minikube
-    namespace: default
-    user: minikube
-  name: minikube
-current-context: minikube
-kind: Config
-preferences: {}
-users:
-- name: minikube
-  user:
-    client-certificate: $HOME/.kube/client.crt
-    client-key: $HOME/.kube/client.key
-EOF
+          echo "apiVersion: v1" > $HOME/.kube/config
+          echo "clusters:" >> $HOME/.kube/config
+          echo "  - cluster:" >> $HOME/.kube/config
+          echo "      certificate-authority: $HOME/.kube/ca.crt" >> $HOME/.kube/config
+          echo "      server: https://127.0.0.1:51801" >> $HOME/.kube/config
+          echo "    name: minikube" >> $HOME/.kube/config
+          echo "contexts:" >> $HOME/.kube/config
+          echo "  - context:" >> $HOME/.kube/config
+          echo "      cluster: minikube" >> $HOME/.kube/config
+          echo "      namespace: default" >> $HOME/.kube/config
+          echo "      user: minikube" >> $HOME/.kube/config
+          echo "    name: minikube" >> $HOME/.kube/config
+          echo "current-context: minikube" >> $HOME/.kube/config
+          echo "kind: Config" >> $HOME/.kube/config
+          echo "preferences: {}" >> $HOME/.kube/config
+          echo "users:" >> $HOME/.kube/config
+          echo "  - name: minikube" >> $HOME/.kube/config
+          echo "    user:" >> $HOME/.kube/config
+          echo "      client-certificate: $HOME/.kube/client.crt" >> $HOME/.kube/config
+          echo "      client-key: $HOME/.kube/client.key" >> $HOME/.kube/config
 
       - name: Deploy to Kubernetes
         run: |
