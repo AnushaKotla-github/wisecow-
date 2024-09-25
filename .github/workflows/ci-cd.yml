@@ -30,6 +30,9 @@ jobs:
         run: |
           docker push anushakotla1205/wisecow-app:latest
 
+      - name: Set up Kubeconfig
+        run: echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f deployment.yaml
