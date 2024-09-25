@@ -31,8 +31,34 @@ jobs:
           docker push anushakotla1205/wisecow-app:latest
 
       - name: Set up Kubeconfig
-        run: echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
-
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > $HOME/.kube/ca.crt
+          echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > $HOME/.kube/client.crt
+          echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > $HOME/.kube/client.key
+          echo "
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: $HOME/.kube/ca.crt
+    server: https://127.0.0.1:51801
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    namespace: default
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: $HOME/.kube/client.crt
+    client-key: $HOME/.kube/client.key
+" > $HOME/.kube/config
+          
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f deployment.yaml
