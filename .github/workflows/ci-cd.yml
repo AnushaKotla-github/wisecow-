@@ -24,11 +24,11 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t your-dockerhub-username/wisecow-app:latest .
+          docker build -t anushakotla1205/wisecow-app:latest .
 
       - name: Push Docker Image
         run: |
-          docker push your-dockerhub-username/wisecow-app:latest
+          docker push anushakotla1205/wisecow-app:latest
 
       - name: Deploy to Kubernetes
         run: |
