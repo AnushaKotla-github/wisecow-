@@ -33,9 +33,9 @@ jobs:
       - name: Set up Kubeconfig
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > ~/.minikube/ca.crt
-          echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > ~/.minikube/client.crt
-          echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > ~/.minikube/client.key
+          echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > ~/.kube/ca.crt
+          echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > ~/.kube/client.crt
+          echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > ~/.kube/client.key
           cat > ~/.kube/config <<- 'EOF'
           apiVersion: v1
           clusters:
@@ -55,8 +55,8 @@ jobs:
           users:
             - name: minikube
               user:
-                client-certificate: ~/.minikube/client.crt
-                client-key: ~/.minikube/client.key
+                client-certificate: ~/.kube/client.crt
+                client-key: ~/.kube/client.key
           EOF
 
       - name: Deploy to Kubernetes
