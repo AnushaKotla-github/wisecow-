@@ -1,4 +1,4 @@
-name: CI/CD Pipeline 
+name: CI/CD Pipeline
 
 on:
   push:
@@ -32,16 +32,16 @@ jobs:
 
       - name: Set up Kubeconfig
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > $HOME/.kube/ca.crt
-          echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > $HOME/.kube/client.crt
-          echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > $HOME/.kube/client.key
-          cat > $HOME/.kube/config <<- 'EOF'
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CA_CERT }}" | base64 --decode > ~/.kube/ca.crt
+          echo "${{ secrets.KUBE_CLIENT_CERT }}" | base64 --decode > ~/.kube/client.crt
+          echo "${{ secrets.KUBE_CLIENT_KEY }}" | base64 --decode > ~/.kube/client.key
+          cat > ~/.kube/config <<- 'EOF'
           apiVersion: v1
           clusters:
             - cluster:
-                certificate-authority: $HOME/.kube/ca.crt
-                server: https://127.0.0.1:59628  # Updated server URL
+                certificate-authority: ~/.kube/ca.crt
+                server: https://127.0.0.1:59628  # Minikube server URL from your kubeconfig
               name: minikube
           contexts:
             - context:
@@ -55,11 +55,11 @@ jobs:
           users:
             - name: minikube
               user:
-                client-certificate: $HOME/.kube/client.crt
-                client-key: $HOME/.kube/client.key
+                client-certificate: ~/.kube/client.crt
+                client-key: ~/.kube/client.key
           EOF
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
+          kubectl apply -f C:/Users/91990/wisecow/deployment.yaml
+          kubectl apply -f C:/Users/91990/wisecow/service.yaml
