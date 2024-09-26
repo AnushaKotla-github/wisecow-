@@ -37,4 +37,3 @@ spec:
       - name: client-key-volume
         secret:
           secretName: kube-client-key  # Ensure this references the correct secret
-
