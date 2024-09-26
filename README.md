@@ -1,6 +1,6 @@
 # Cow wisdom web server
-# LALALANDLALALAND234
-## Prerequisites
+
+# Prerequisites
 
 ```
 sudo apt install fortune-mod cowsay -y
