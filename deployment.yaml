@@ -17,3 +17,23 @@ spec:
         image: anushakotla1205/wisecow-app:latest
         ports:
         - containerPort: 4499
+        volumeMounts:
+        - name: ca-cert-volume
+          mountPath: /etc/ssl/certs/ca.crt
+          subPath: ca.crt
+        - name: client-cert-volume
+          mountPath: /etc/ssl/certs/cert.pem
+          subPath: cert.pem
+        - name: client-key-volume
+          mountPath: /etc/ssl/certs/key.pem
+          subPath: key.pem
+      volumes:
+      - name: ca-cert-volume
+        secret:
+          secretName: kube-ca-cert
+      - name: client-cert-volume
+        secret:
+          secretName: kube-client-cert
+      - name: client-key-volume  # This volume is correctly defined now
+        secret:
+          secretName: kube-client-key  # Use the correct secret for the key

@@ -7,6 +7,6 @@ spec:
     app: wisecow
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 4499
-  type: LoadBalancer
+      port: 80          # This is the port exposed on the service
+      targetPort: 4499  # This is the port your app listens on
+  type: NodePort        # Changed from LoadBalancer to NodePort
