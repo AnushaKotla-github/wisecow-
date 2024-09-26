@@ -34,6 +34,7 @@ spec:
       - name: client-cert-volume
         secret:
           secretName: kube-client-cert
-      - name: client-key-volume  # This volume is correctly defined now
+      - name: client-key-volume
         secret:
-          secretName: kube-client-key  # Use the correct secret for the key
+          secretName: kube-client-key  # Ensure this references the correct secret
+
